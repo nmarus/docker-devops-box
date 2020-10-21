@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# optional docker opts
+if [[ ! -e /tmp/seccomp_chrome.json ]]; then
+  wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O /tmp/seccomp_chrome.json &> /dev/null
+fi
+DOCKER_OPTS="${DOCKER_OPTS} --security-opt seccomp=/tmp/seccomp_chrome.json"
+export DOCKER_OPTS=${DOCKER_OPTS}
+export CMD=zsh
+
+cleanup() {
+  if [[ -e /tmp/seccomp_chrome.json ]]; then
+    rm -rf /tmp/seccomp_chrome.json
+  fi
+}
